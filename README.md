@@ -116,6 +116,6 @@ This is the source code for the Lambda function, written in Python. It is automa
 terraform init
 terraform plan
 terraform apply
-
+```
 
 ![Diagrama del pipeline](draw.jpg)

@@ -58,4 +58,64 @@ Editar
 2. Glue Job for data transformation  
 3. Notification step on completion
 
+
+## 📁 Terraform Infrastructure Overview
+
+This project uses Terraform to define and deploy the AWS infrastructure required for the data ingestion pipeline. Below is a breakdown of each file in the Terraform configuration:
+
+---
+
+### `main.tf`
+
+This is the core of the infrastructure definition. It includes:
+
+- The **AWS provider** configuration (`region`).
+- Creation of an **S3 bucket** with two folders: `raw/` and `processed/` to organize incoming and transformed data.
+- A **Lambda execution IAM role** with the necessary trust relationship.
+- Attachment of **IAM policies** to allow:
+  - Writing to S3 (`AmazonS3FullAccess`)
+  - Writing logs to CloudWatch (`AWSLambdaBasicExecutionRole`)
+- A **Lambda function** that:
+  - Uses Python 3.9
+  - Is zipped from the `lambda/ingest_people.py` file
+  - Has access to the S3 bucket via environment variables
+
+---
+
+### `variables.tf`
+
+This file contains all configurable parameters for the deployment:
+
+- `region`: The AWS region to deploy to.
+- `bucket_name`: Name of the S3 bucket.
+- `lambda_function_name`: Name of the Lambda function.
+
+These variables allow for flexibility across environments (e.g., dev, staging, production).
+
+---
+
+### `outputs.tf`
+
+Defines outputs that are shown after running `terraform apply`. These include:
+
+- The created S3 bucket name.
+- The Lambda function name.
+- A sample command to invoke the Lambda manually using the AWS CLI.
+
+---
+
+### `lambda/ingest_people.py`
+
+This is the source code for the Lambda function, written in Python. It is automatically zipped and uploaded by Terraform using the `archive_file` data source. The handler must match the entry point defined in `main.tf` (`handler = "ingest_people.lambda_handler"`).
+
+---
+
+### How to Deploy
+
+```bash
+terraform init
+terraform plan
+terraform apply
+
+
 ![Diagrama del pipeline](draw.jpg)

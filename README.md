@@ -25,3 +25,14 @@ Let me know if anything needs adjusting or if you'd like a demo!
 
 Cheers,  
 Baz
+
+
+
+
++--------------+       +----------+       +------------+       +-------------+
+|   API swapi  | ----> |  Lambda  | ----> | S3 /raw/   | ----> |  Glue Job   |
++--------------+       +----------+       +------------+       +-------------+
+                                                             |
+                                                             v
+                                                        S3 /processed/
+

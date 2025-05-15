@@ -36,4 +36,4 @@ Baz
                                                              v
                                                         S3 /processed/
 
-![Diagrama del pipeline](draw.png)
+![Diagrama del pipeline](draw.jpg)
